@@ -36,10 +36,12 @@ function App() {
   return (
     <div className="app bg-dark text-light">
       <div className="container mx-auto flex h-screen w-full flex-col items-center justify-center ">
-        <div className="w-80 md:w-1/2 lg:w-1/3 flex flex-col gap-4">
+        <div className="w-80 sm:w-2/3 xl:w-1/3 flex flex-col gap-4">
           <header className="flex w-full items-center justify-between">
             <img src={Logo} alt="" />
-            <h1>{winner ? `${winner} WON!` : `${turn.toUpperCase()} TURN`}</h1>
+            <h1 className="font-bold">
+              {winner ? `${winner.toUpperCase()} WON!` : `${turn.toUpperCase()} TURN`}
+            </h1>
           </header>
 
           <div className="container grid aspect-square w-full grid-cols-3 grid-rows-3 items-center justify-items-center gap-4">
@@ -48,6 +50,7 @@ function App() {
                 key={idx}
                 id={idx}
                 value={mark}
+                turn={turn}
                 handleCellClick={handleCellClick}
               />
             ))}
