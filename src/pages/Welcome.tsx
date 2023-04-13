@@ -1,23 +1,6 @@
 import { Logo } from '../components/Logo';
+import { MarkSelect } from '../components/MarkSelect';
 import { NewGameButton } from '../components/NewGameButton';
-
-const MarkSelect = () => {
-  return (
-    <div className="flex w-full flex-col items-center gap-4 rounded-xl bg-dark px-8 py-6">
-      <h2 className="text-center text-xl font-bold uppercase">
-        Pick your mark
-      </h2>
-
-      <div className="h-20 w-full rounded-xl bg-bg p-4">
-        <button className="cross"></button>
-      </div>
-
-      <h2 className="text-md text-gray text-center font-bold uppercase">
-        Don't forget that X goes first!
-      </h2>
-    </div>
-  );
-};
 
 export const Welcome = () => {
   return (

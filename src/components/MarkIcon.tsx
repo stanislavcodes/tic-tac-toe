@@ -1,7 +1,7 @@
-import CircleIconOutline from '../assets/icon-o-outline.svg';
-import CircleIcon from '../assets/icon-o.svg';
-import CrossIconOutline from '../assets/icon-x-outline.svg';
-import CrossIcon from '../assets/icon-x.svg';
+import CircleIconOutline from '../assets/circle-outline.svg';
+import CircleIcon from '../assets/circle.svg';
+import CrossIconOutline from '../assets/cross-outline.svg';
+import CrossIcon from '../assets/cross.svg';
 import { Mark } from '../enums/Mark';
 
 interface IconProps {
