@@ -3,22 +3,22 @@ export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     fontFamily: {
-      'sans': ['Nunito', 'ui-sans-serif', 'system-ui'],
+      sans: ['Syne', 'ui-sans-serif', 'system-ui'],
     },
     extend: {
       colors: {
-        'light': '#FAFAFA',
-        'blue': '#2846F9',
-        'yellow': '#FFDD00',
-        'gray': '#2d2d2d',
-        'dark': '#171717',
+        primary: '#c2e812',
+        secondary: '#85c7f2',
+        bg: '#171717',
+        gray: '#d3d3d3',
+        dark: '#232323',
       },
       gridTemplateColumns: {
-        'three': 'repeat(3, minmax(80px, 1fr)',
+        three: 'repeat(3, minmax(80px, 1fr)',
       },
       gridTemplateRows: {
-        'three': 'repeat(3, minmax(80px, 1fr)',
-      }
+        three: 'repeat(3, minmax(80px, 1fr)',
+      },
     },
   },
   plugins: [],
