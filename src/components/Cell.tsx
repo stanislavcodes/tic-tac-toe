@@ -1,11 +1,10 @@
-import { Mark } from '../enums/Mark';
-import XSVG from '../assets/icon-x.svg';
+import { useState } from 'react';
+import OHoverSVG from '../assets/icon-o-outline.svg';
 import OSVG from '../assets/icon-o.svg';
 import XHoverSVG from '../assets/icon-x-outline.svg';
-import OHoverSVG from '../assets/icon-o-outline.svg';
-import { useState } from 'react';
+import XSVG from '../assets/icon-x.svg';
+import { Mark } from '../enums/Mark';
 import { Turn } from '../types/Turn';
-import classnames from 'classnames';
 
 interface CellProps {
   id: number;
@@ -35,20 +34,19 @@ const Cell = ({ id, value, turn, handleCellClick }: CellProps) => {
 
   return (
     <button
-      className="flex justify-center items-center h-full w-full rounded-lg bg-gray text-2xl"
+      className="flex h-full w-full items-center justify-center rounded-lg bg-gray text-2xl"
       onClick={handleFieldClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {!value && isHover && (
-        <img src={turn === Mark.O ? OHoverSVG : XHoverSVG} alt={`${turn} mark`} />
+        <img
+          src={turn === Mark.Circle ? OHoverSVG : XHoverSVG}
+          alt={`${turn} mark`}
+        />
       )}
-      {value === Mark.O && (
-        <img src={OSVG} alt="X mark" />
-      )}
-      {value === Mark.X && (
-        <img src={XSVG} alt="X mark" />
-      )}
+      {value === Mark.Circle && <img src={OSVG} alt="Circle mark" />}
+      {value === Mark.Cross && <img src={XSVG} alt="Cross mark" />}
     </button>
   );
 };

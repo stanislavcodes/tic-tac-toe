@@ -1,5 +1,5 @@
 export enum Mark {
-  X = 'x',
-  O = 'o',
+  Cross = 'cross',
+  Circle = 'circle',
   Empty = '',
 }
