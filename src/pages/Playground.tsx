@@ -42,11 +42,11 @@ export const Playground = () => {
   }, [marks]);
 
   return (
-    <div className="flex w-80 flex-col gap-6 sm:w-2/3 md:w-1/2 xl:w-1/3">
-      <header className="as grid h-8 w-full grid-cols-[max-content_1fr_max-content] items-center justify-between">
-        <Logo />
+    <div className="flex w-80 flex-col gap-6 max-[325px]:w-72 sm:w-2/3 md:w-1/2 xl:w-1/3">
+      <header className="grid h-14 w-full grid-cols-[1fr_2fr_1fr] items-center justify-between">
+        <Logo heightClass="h-8 md:h-3/4" />
 
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
           {!winner && (
             <MarkIcon mark={turn} outline={false} heightClass="h-6" />
           )}
@@ -55,10 +55,10 @@ export const Playground = () => {
           </h1>
         </div>
         <button
-          className="h-full w-24 rounded-md bg-primary font-bold uppercase text-dark"
+          className="h-8 rounded-md bg-primary px-2 font-bold  uppercase text-dark text-xs sm:text-md"
           onClick={resetGame}
         >
-          Reset
+          Restart
         </button>
       </header>
 
