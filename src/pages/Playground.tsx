@@ -1,11 +1,10 @@
-import { useMemo,useState } from 'react';
-import OSVG from '../assets/icon-o.svg';
-import XSVG from '../assets/icon-x.svg';
+import { useMemo, useState } from 'react';
 import Cell from '../components/Cell';
+import { Logo } from '../components/Logo';
+import { MarkIcon } from '../components/MarkIcon';
 import { Mark } from '../enums/Mark';
 import { checkWinner } from '../helpers/helpers';
 import { type Turn } from '../types/Turn';
-import { Logo } from '../components/Logo';
 
 const START_MARKS = Array(9).fill(Mark.Empty);
 
@@ -49,11 +48,7 @@ export const Playground = () => {
 
         <div className="flex items-center justify-center gap-2">
           {!winner && (
-            <img
-              className="h-6"
-              src={turn === Mark.Circle ? OSVG : XSVG}
-              alt={`${turn} mark`}
-            />
+            <MarkIcon mark={turn} outline={false} heightClass="h-6" />
           )}
           <h1 className="justify-self-center font-bold">
             {winner ? `${winner.toUpperCase()} WON!` : 'TURN'}
