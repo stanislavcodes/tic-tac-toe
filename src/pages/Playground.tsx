@@ -1,4 +1,5 @@
 import { useEffect,useMemo,useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import Cell from '../components/Cell';
 import { Logo } from '../components/Logo';
 import { MarkIcon } from '../components/MarkIcon';
@@ -7,17 +8,47 @@ import { ScoreBoard } from '../components/ScoreBoard';
 import { useGameContext } from '../contexts/useGameContext';
 import { Mark } from '../enums/Mark';
 import { RoundResult } from '../enums/RoundResult';
-import { checkRound } from '../helpers/helpers';
-import { useLocalStorageScore } from '../hooks/useLocalStorageScore';
+import { checkRound,getCpuMove } from '../helpers/helpers';
+import { useSessionStorageScore } from '../hooks/useSessionStorageScore';
 import { type PlayersMark } from '../types/PlayersMark';
 
 const START_MARKS = Array(9).fill(Mark.Empty);
 
+enum Mode {
+  Player = 'player',
+  Cpu = 'cpu',
+}
+
+const getMode = (mode: string): Mode | null => {
+  switch (mode) {
+    case Mode.Player:
+      return Mode.Player;
+    case Mode.Cpu:
+      return Mode.Cpu;
+    default:
+      return null;
+  }
+};
+
 export const Playground = () => {
-  // const [firstPlayersMark, setFirstPlayersMark] = useState(second)
+  const { pathname } = useLocation();
+  const gameMode = getMode(pathname.slice(1));
   const [turn, setTurn] = useState<PlayersMark>(Mark.Cross);
   const [marks, setMarks] = useState(START_MARKS);
   const [winner, setWinner] = useState<Mark.Circle | Mark.Cross | null>(null);
+  const [scores, setScores] = useSessionStorageScore();
+
+  const addMark = (id: number, newMark: PlayersMark) => {
+    setMarks(
+      marks.map((mark, idx) => {
+        if (id === idx) {
+          return newMark;
+        }
+
+        return mark;
+      }),
+    );
+  };
 
   const {
     firstPlayersMark,
@@ -26,29 +57,24 @@ export const Playground = () => {
     setIsPopupOpened,
   } = useGameContext();
 
-  const [scores, setScores] = useLocalStorageScore();
-
   const resetGame = () => {
     setTurn(Mark.Cross);
     setMarks(START_MARKS);
   };
 
   const changeTurn = () => {
-    const newTurn = turn === Mark.Cross ? Mark.Circle : Mark.Cross;
-    setTurn(newTurn);
+    setTurn(turn === Mark.Cross ? Mark.Circle : Mark.Cross);
+  };
+
+  const makeCpuMove = () => {
+    const moveIndex = getCpuMove(marks, secondPlayersMark);
+    setTimeout(() => addMark(moveIndex, secondPlayersMark), 300);
+    changeTurn();
   };
 
   const handleCellClick = (id: number) => {
-    const newMarks = marks.map((mark, idx) => {
-      if (id === idx) {
-        return turn;
-      }
-
-      return mark;
-    });
-
+    addMark(id, gameMode === Mode.Cpu ? firstPlayersMark : turn);
     changeTurn();
-    setMarks(newMarks);
   };
 
   const handleRoundPopupClose = () => {
@@ -62,13 +88,18 @@ export const Playground = () => {
   }, [marks]);
 
   useEffect(() => {
-    if (roundResult) {
-      setIsPopupOpened(true);
+    if (!roundResult && gameMode === Mode.Cpu && turn === secondPlayersMark) {
+      makeCpuMove();
+    }
+  }, [turn]);
 
+  useEffect(() => {
+    if (roundResult) {
+      setTimeout(() => setIsPopupOpened(true), 300);
 
       if (roundResult === RoundResult.Circle) {
         setWinner(Mark.Circle);
-        setScores({...scores, circle: scores.circle + 1 });
+        setScores({ ...scores, circle: scores.circle + 1 });
       } else if (roundResult === RoundResult.Cross) {
         setWinner(Mark.Cross);
         setScores({ ...scores, cross: scores.cross + 1 });

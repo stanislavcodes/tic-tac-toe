@@ -32,9 +32,9 @@
 import { useState } from 'react';
 import { Scores } from '../types/Scores';
 
-export const useLocalStorageScore = (): [Scores, (newScore: Scores) => void] => {
+export const useSessionStorageScore = (): [Scores, (newScore: Scores) => void] => {
   const [score, setScore] = useState<Scores>(() => {
-    const storedScore = localStorage.getItem('score');
+    const storedScore = sessionStorage.getItem('score');
 
     if (storedScore) {
       return JSON.parse(storedScore);
@@ -44,7 +44,7 @@ export const useLocalStorageScore = (): [Scores, (newScore: Scores) => void] => 
   });
 
   const updateScore = (newScore: Scores) => {
-    localStorage.setItem('score', JSON.stringify(newScore));
+    sessionStorage.setItem('score', JSON.stringify(newScore));
     setScore(newScore);
   };
 

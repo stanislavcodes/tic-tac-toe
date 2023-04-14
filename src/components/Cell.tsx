@@ -11,14 +11,12 @@ interface CellProps {
   handleCellClick: (idx: number) => void;
 }
 
-const Cell = memo(({ id, value, turn, handleCellClick }: CellProps) => {
+const Cell = ({ id, value, turn, handleCellClick }: CellProps) => {
   const [isPreview, setIsPreview] = useState(false);
 
   const { isPopupOpened } = useGameContext();
 
   const handleFieldClick = () => {
-    console.log(`value: ${value}, id: ${id}`);
-
     if (!value) {
       handleCellClick(id);
     }
@@ -49,6 +47,6 @@ const Cell = memo(({ id, value, turn, handleCellClick }: CellProps) => {
       {value && <MarkIcon outline={false} mark={value} heightClass="h-2/3" />}
     </button>
   );
-});
+};
 
 export default Cell;
