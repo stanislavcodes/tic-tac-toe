@@ -1,7 +1,16 @@
 import { MarkSelect } from '../components/MarkSelect';
 import { NewGameButton } from '../components/NewGameButton';
+import { useGameContext } from '../contexts/useGameContext';
+import { Mark } from '../enums/Mark';
 
 export const Welcome = () => {
+  const { setFirstPlayersMark } = useGameContext();
+
+  const handleMarkSelectChange = (mark: Omit<Mark, Mark.Empty>) => {
+    console.log(mark)
+    setFirstPlayersMark(mark);
+  };
+
   return (
     <div className="flex w-80 flex-col items-center gap-8 sm:w-2/3 md:w-1/2 xl:w-1/3">
       <header className="flex h-8 w-full flex-col items-center justify-center">
@@ -13,7 +22,7 @@ export const Welcome = () => {
         </h1>
       </header>
 
-      <MarkSelect />
+      <MarkSelect handleMarkSelect={handleMarkSelectChange} />
 
       <NewGameButton to="player" />
       <NewGameButton to="cpu" />

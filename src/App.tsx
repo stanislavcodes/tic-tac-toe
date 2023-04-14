@@ -4,13 +4,14 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { Layout } from "./Layout";
+import { AppLayout } from "./layouts/AppLayout";
 import { Playground } from "./pages/Playground";
 import { Welcome } from "./pages/Welcome";
+import { GameContextProvider } from "./contexts/useGameContext";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route path="/" element={<Layout />}>
+    <Route path="/" element={<AppLayout />}>
       <Route index element={<Welcome />} />
       <Route path="player" element={<Playground />} />
       <Route path="cpu" element={<Playground />} />
@@ -18,6 +19,10 @@ const router = createBrowserRouter(
   )
 )
 
-const App = () => <RouterProvider router={router} />;
+const App = () => (
+  <GameContextProvider>
+    <RouterProvider router={router} />
+  </GameContextProvider>
+);
 
 export default App;

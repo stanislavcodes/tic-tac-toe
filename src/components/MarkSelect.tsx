@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { useState } from 'react';
+import { useEffect,useState } from 'react';
 import { Mark } from '../enums/Mark';
 import { MarkIcon } from './MarkIcon';
 
@@ -14,7 +14,7 @@ const Option = ({
 }) => {
   return (
     <button
-      className={classNames('flex grow justify-center rounded-md py-2 ', {
+      className={classNames('flex grow justify-center rounded-md py-2 hover:bg-dark', {
         'bg-dark': selected,
       })}
       onClick={toggleSelected}
@@ -24,12 +24,21 @@ const Option = ({
   );
 };
 
-export const MarkSelect = () => {
+interface MarkSelectProps {
+  handleMarkSelect: (mark: Omit<Mark, Mark.Empty>) => void;
+}
+
+export const MarkSelect = ({ handleMarkSelect }: MarkSelectProps) => {
   const [selected, setSelected] = useState(Mark.Cross);
 
   const toggleSelected = () => {
     setSelected(selected === Mark.Cross ? Mark.Circle : Mark.Cross);
   };
+
+  useEffect(() => {
+    handleMarkSelect(selected);
+  }, [selected])
+  
 
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-xl bg-dark px-8 py-6">
@@ -48,17 +57,11 @@ export const MarkSelect = () => {
           selected={selected === Mark.Circle}
           toggleSelected={toggleSelected}
         />
-        {/* <button className="flex basis-1/2 justify-center">
-          <MarkIcon outline={false} mark={Mark.Cross} />
-        </button>
-        <button className="flex basis-1/2 justify-center">
-          <MarkIcon outline={false} mark={Mark.Circle} />
-        </button> */}
       </div>
 
-      <h2 className="text-md text-center font-bold uppercase text-gray">
+      <p className="text-md text-center font-bold uppercase text-gray">
         Don't forget that <span className="text-primary">X</span> goes first!
-      </h2>
+      </p>
     </div>
   );
 };
