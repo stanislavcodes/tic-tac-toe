@@ -1,6 +1,6 @@
 import { memo, useState } from 'react';
 import { Mark } from '../enums/Mark';
-import { type Turn } from '../types/Turn';
+import { type Turn } from '../types/PlayersMark';
 import { MarkIcon } from './MarkIcon';
 
 interface CellProps {

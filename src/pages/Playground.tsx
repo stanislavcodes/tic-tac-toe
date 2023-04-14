@@ -6,18 +6,27 @@ import { RoundOverPopup } from '../components/RoundOverPopup';
 import { ScoreBoard } from '../components/ScoreBoard';
 import { useGameContext } from '../contexts/useGameContext';
 import { Mark } from '../enums/Mark';
-import { checkWinner } from '../helpers/helpers';
-import { type Turn } from '../types/Turn';
+import { RoundResult } from '../enums/RoundResult';
+import { checkRound } from '../helpers/helpers';
+import { type PlayersMark } from '../types/PlayersMark';
 
 const START_MARKS = Array(9).fill(Mark.Empty);
+// const START_SCORES = { cross: 0, ties: 0, circle: 0 };
 
 export const Playground = () => {
   // const [firstPlayersMark, setFirstPlayersMark] = useState(second)
-  const [turn, setTurn] = useState<Turn>(Mark.Cross);
+  const [turn, setTurn] = useState<PlayersMark>(Mark.Cross);
   const [marks, setMarks] = useState(START_MARKS);
   const [isRoundOver, setIsRoundOver] = useState(false);
-  // const [winner, setWinner] = useState<Turn | null>(null);
-  const { firstPlayersMark } = useGameContext();
+  const [winner, setWinner] = useState<Mark.Circle | Mark.Cross | null>(null);
+
+  const { firstPlayersMark, secondPlayersMark } = useGameContext();
+
+  const [crossScore, setCrossScore] = useState(0);
+  const [tiesScore, setTiesScore] = useState(0);
+  const [circleScore, setCircleScore] = useState(0);
+
+  // const [scores, setScores] = useState<Scores>(START_SCORES);
 
   const resetGame = () => {
     setTurn(Mark.Cross);
@@ -39,26 +48,34 @@ export const Playground = () => {
     });
 
     changeTurn();
-
     setMarks(newMarks);
   };
-  
+
   const handleRoundPopupClose = () => {
     setIsRoundOver(false);
+    setWinner(null);
     resetGame();
   };
 
-  const winner = useMemo(() => {
-    return checkWinner(marks);
+  const roundResult = useMemo(() => {
+    return checkRound(marks);
   }, [marks]);
 
   useEffect(() => {
-    if (winner) {
+    if (roundResult) {
       setIsRoundOver(true);
+
+      if (roundResult === RoundResult.Circle) {
+        setWinner(Mark.Circle);
+        setCircleScore(circleScore + 1);
+      } else if (roundResult === RoundResult.Cross) {
+        setWinner(Mark.Cross);
+        setCrossScore(crossScore + 1);
+      } else {
+        setTiesScore(tiesScore + 1);
+      }
     }
-  
-  }, [winner])
-  
+  }, [roundResult]);
 
   return (
     <>
@@ -67,12 +84,8 @@ export const Playground = () => {
           <Logo heightClass="h-8 md:h-3/4" />
 
           <div className="flex flex-col items-center justify-center gap-2 sm:flex-row">
-            {!winner && (
-              <MarkIcon mark={turn} outline={false} heightClass="h-6" />
-            )}
-            <h1 className="justify-self-center font-bold">
-              {winner ? `${winner.toUpperCase()} WON!` : 'TURN'}
-            </h1>
+            <MarkIcon mark={turn} outline={false} heightClass="h-6" />
+            <h1 className="justify-self-center font-bold">TURN</h1>
           </div>
           <button
             className="sm:text-md h-8 rounded-md bg-primary px-2  text-xs font-bold uppercase text-dark"
@@ -94,15 +107,12 @@ export const Playground = () => {
           ))}
         </div>
 
-        <ScoreBoard cross={3} ties={2} circle={1} />
+        <ScoreBoard cross={crossScore} ties={tiesScore} circle={circleScore} />
       </div>
 
       {isRoundOver && (
         <>
-          <RoundOverPopup
-            winner={winner}
-            closePopup={handleRoundPopupClose}
-          />
+          <RoundOverPopup winner={winner} closePopup={handleRoundPopupClose} />
         </>
       )}
     </>

@@ -3,9 +3,10 @@ import CircleIcon from '../assets/circle.svg';
 import CrossIconOutline from '../assets/cross-outline.svg';
 import CrossIcon from '../assets/cross.svg';
 import { Mark } from '../enums/Mark';
+import { PlayersMark } from '../types/PlayersMark';
 
 interface IconProps {
-  mark: Omit<Mark, Mark.Empty>;
+  mark: PlayersMark;
   outline: boolean;
   heightClass?: string;
 }
@@ -21,8 +22,8 @@ export const MarkIcon = ({
         ? CrossIconOutline
         : CrossIcon
       : outline
-        ? CircleIconOutline
-        : CircleIcon;
+      ? CircleIconOutline
+      : CircleIcon;
 
   return <img className={heightClass} src={src} alt={`${mark} mark`} />;
 };

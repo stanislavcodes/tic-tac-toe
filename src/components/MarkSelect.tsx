@@ -1,7 +1,8 @@
 import classNames from 'classnames';
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Mark } from '../enums/Mark';
 import { MarkIcon } from './MarkIcon';
+import { PlayersMark } from '../types/PlayersMark';
 
 const Option = ({
   selected,
@@ -9,14 +10,17 @@ const Option = ({
   toggleSelected,
 }: {
   selected: boolean;
-  mark: Omit<Mark, Mark.Empty>;
+  mark: PlayersMark;
   toggleSelected: () => void;
 }) => {
   return (
     <button
-      className={classNames('flex grow justify-center rounded-md py-2 hover:bg-dark', {
-        'bg-dark': selected,
-      })}
+      className={classNames(
+        'flex grow justify-center rounded-md py-2 hover:bg-dark',
+        {
+          'bg-dark': selected,
+        },
+      )}
       onClick={toggleSelected}
     >
       <MarkIcon outline={!selected} mark={mark} />
@@ -25,7 +29,7 @@ const Option = ({
 };
 
 interface MarkSelectProps {
-  handleMarkSelect: (mark: Omit<Mark, Mark.Empty>) => void;
+  handleMarkSelect: (mark: PlayersMark) => void;
 }
 
 export const MarkSelect = ({ handleMarkSelect }: MarkSelectProps) => {
@@ -37,8 +41,7 @@ export const MarkSelect = ({ handleMarkSelect }: MarkSelectProps) => {
 
   useEffect(() => {
     handleMarkSelect(selected);
-  }, [selected])
-  
+  }, [selected]);
 
   return (
     <div className="flex w-full flex-col items-center gap-4 rounded-xl bg-dark px-8 py-6">

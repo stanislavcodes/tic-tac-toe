@@ -1,9 +1,12 @@
 import { Mark } from '../enums/Mark';
+import { RoundResult } from '../enums/RoundResult';
 
-export const checkWinner = (marks: Mark[]): Omit<Mark, Mark.Empty> | null => {
+export const checkRound = (marks: Mark[]): RoundResult | null => {
   const checkWin = (line: Mark[]) => {
     if (line.every((cell) => line[0] !== Mark.Empty && cell === line[0])) {
-      return line[0];
+      return line[0] === Mark.Circle
+        ? RoundResult.Circle
+        : RoundResult.Cross;
     }
 
     return null;
@@ -28,9 +31,9 @@ export const checkWinner = (marks: Mark[]): Omit<Mark, Mark.Empty> | null => {
     }
   }
 
-  // if (row1.includes(0) || row2.includes(0) || row3.includes(0)) {
-  //   return -1;
-  // }
+  if (row1.includes(Mark.Empty) || row2.includes(Mark.Empty) || row3.includes(Mark.Empty)) {
+    return null;
+  }
 
-  return null;
+  return RoundResult.Tie;
 };

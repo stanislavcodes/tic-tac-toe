@@ -1,13 +1,13 @@
 import { MarkSelect } from '../components/MarkSelect';
 import { NewGameButton } from '../components/NewGameButton';
 import { useGameContext } from '../contexts/useGameContext';
-import { Mark } from '../enums/Mark';
+import { PlayersMark } from '../types/PlayersMark';
 
 export const Welcome = () => {
   const { setFirstPlayersMark } = useGameContext();
 
-  const handleMarkSelectChange = (mark: Omit<Mark, Mark.Empty>) => {
-    console.log(mark)
+  const handleMarkSelectChange = (mark: PlayersMark) => {
+    console.log(mark);
     setFirstPlayersMark(mark);
   };
 

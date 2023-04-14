@@ -8,8 +8,7 @@ useContext,
 useState
 } from 'react';
 import { Mark } from '../enums/Mark';
-
-type PlayersMark = Omit<Mark, Mark.Empty>;
+import { PlayersMark } from '../types/PlayersMark';
 
 interface GameContextProps {
   firstPlayersMark: PlayersMark;
