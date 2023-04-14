@@ -1,12 +1,12 @@
 import { memo, useState } from 'react';
 import { Mark } from '../enums/Mark';
-import { type Turn } from '../types/PlayersMark';
+import { type PlayersMark } from '../types/PlayersMark';
 import { MarkIcon } from './MarkIcon';
 
 interface CellProps {
   id: number;
   value: Mark;
-  turn: Turn;
+  turn: PlayersMark;
   handleCellClick: (idx: number) => void;
 }
 
