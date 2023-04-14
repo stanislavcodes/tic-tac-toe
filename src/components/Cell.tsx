@@ -1,4 +1,5 @@
-import { memo, useState } from 'react';
+import { memo,useState } from 'react';
+import { useGameContext } from '../contexts/useGameContext';
 import { Mark } from '../enums/Mark';
 import { type PlayersMark } from '../types/PlayersMark';
 import { MarkIcon } from './MarkIcon';
@@ -12,6 +13,8 @@ interface CellProps {
 
 const Cell = memo(({ id, value, turn, handleCellClick }: CellProps) => {
   const [isPreview, setIsPreview] = useState(false);
+
+  const { isPopupOpened } = useGameContext();
 
   const handleFieldClick = () => {
     console.log(`value: ${value}, id: ${id}`);
@@ -37,6 +40,7 @@ const Cell = memo(({ id, value, turn, handleCellClick }: CellProps) => {
       onMouseLeave={hideOutlined}
       onFocus={showOutlined}
       onBlur={hideOutlined}
+      disabled={isPopupOpened}
     >
       {!value && isPreview && (
         <MarkIcon outline={true} mark={turn} heightClass="h-2/3" />

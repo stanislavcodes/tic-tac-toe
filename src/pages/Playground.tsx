@@ -17,10 +17,14 @@ export const Playground = () => {
   // const [firstPlayersMark, setFirstPlayersMark] = useState(second)
   const [turn, setTurn] = useState<PlayersMark>(Mark.Cross);
   const [marks, setMarks] = useState(START_MARKS);
-  const [isRoundOver, setIsRoundOver] = useState(false);
   const [winner, setWinner] = useState<Mark.Circle | Mark.Cross | null>(null);
 
-  const { firstPlayersMark, secondPlayersMark } = useGameContext();
+  const {
+    firstPlayersMark,
+    secondPlayersMark,
+    isPopupOpened,
+    setIsPopupOpened,
+  } = useGameContext();
 
   const [crossScore, setCrossScore] = useState(0);
   const [tiesScore, setTiesScore] = useState(0);
@@ -52,7 +56,7 @@ export const Playground = () => {
   };
 
   const handleRoundPopupClose = () => {
-    setIsRoundOver(false);
+    setIsPopupOpened(false);
     setWinner(null);
     resetGame();
   };
@@ -63,7 +67,7 @@ export const Playground = () => {
 
   useEffect(() => {
     if (roundResult) {
-      setIsRoundOver(true);
+      setIsPopupOpened(true);
 
       if (roundResult === RoundResult.Circle) {
         setWinner(Mark.Circle);
@@ -90,6 +94,7 @@ export const Playground = () => {
           <button
             className="sm:text-md h-8 rounded-md bg-primary px-2  text-xs font-bold uppercase text-dark"
             onClick={resetGame}
+            disabled={isPopupOpened}
           >
             Restart
           </button>
@@ -110,7 +115,7 @@ export const Playground = () => {
         <ScoreBoard cross={crossScore} ties={tiesScore} circle={circleScore} />
       </div>
 
-      {isRoundOver && (
+      {isPopupOpened && (
         <>
           <RoundOverPopup winner={winner} closePopup={handleRoundPopupClose} />
         </>

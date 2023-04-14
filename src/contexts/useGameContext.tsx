@@ -11,6 +11,8 @@ import { Mark } from '../enums/Mark';
 import { PlayersMark } from '../types/PlayersMark';
 
 interface GameContextProps {
+  isPopupOpened: boolean;
+  setIsPopupOpened: Dispatch<SetStateAction<boolean>>;
   firstPlayersMark: PlayersMark;
   setFirstPlayersMark: Dispatch<SetStateAction<PlayersMark>>;
   secondPlayersMark: PlayersMark;
@@ -32,10 +34,13 @@ export const GameContextProvider: FC<GameContextProviderProps> = ({
   const [secondPlayersMark, setSecondPlayersMark] = useState<PlayersMark>(
     Mark.Cross,
   );
+  const [isPopupOpened, setIsPopupOpened] = useState(false);
 
   return (
     <GameContext.Provider
       value={{
+        isPopupOpened,
+        setIsPopupOpened,
         firstPlayersMark,
         setFirstPlayersMark,
         secondPlayersMark,
