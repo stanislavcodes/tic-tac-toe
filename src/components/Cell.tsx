@@ -1,4 +1,4 @@
-import { memo,useState } from 'react';
+import { useEffect,useRef,useState } from 'react';
 import { useGameContext } from '../contexts/useGameContext';
 import { Mark } from '../enums/Mark';
 import { type PlayersMark } from '../types/PlayersMark';
@@ -13,8 +13,14 @@ interface CellProps {
 
 const Cell = ({ id, value, turn, handleCellClick }: CellProps) => {
   const [isPreview, setIsPreview] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    console.log(document.activeElement === ref.current, id);
+  });
 
   const { isPopupOpened } = useGameContext();
+  const isTouchDevice = 'ontouchstart' in document.documentElement;
 
   const handleFieldClick = () => {
     if (!value) {
@@ -38,9 +44,10 @@ const Cell = ({ id, value, turn, handleCellClick }: CellProps) => {
       onMouseLeave={hideOutlined}
       onFocus={showOutlined}
       onBlur={hideOutlined}
+      ref={ref}
       disabled={isPopupOpened}
     >
-      {!value && isPreview && (
+      {!value && isPreview && !isTouchDevice && (
         <MarkIcon outline={true} mark={turn} heightClass="h-2/3" />
       )}
 
