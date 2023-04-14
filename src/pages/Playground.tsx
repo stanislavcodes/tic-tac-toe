@@ -8,10 +8,10 @@ import { useGameContext } from '../contexts/useGameContext';
 import { Mark } from '../enums/Mark';
 import { RoundResult } from '../enums/RoundResult';
 import { checkRound } from '../helpers/helpers';
+import { useLocalStorageScore } from '../hooks/useLocalStorageScore';
 import { type PlayersMark } from '../types/PlayersMark';
 
 const START_MARKS = Array(9).fill(Mark.Empty);
-// const START_SCORES = { cross: 0, ties: 0, circle: 0 };
 
 export const Playground = () => {
   // const [firstPlayersMark, setFirstPlayersMark] = useState(second)
@@ -26,11 +26,7 @@ export const Playground = () => {
     setIsPopupOpened,
   } = useGameContext();
 
-  const [crossScore, setCrossScore] = useState(0);
-  const [tiesScore, setTiesScore] = useState(0);
-  const [circleScore, setCircleScore] = useState(0);
-
-  // const [scores, setScores] = useState<Scores>(START_SCORES);
+  const [scores, setScores] = useLocalStorageScore();
 
   const resetGame = () => {
     setTurn(Mark.Cross);
@@ -69,14 +65,15 @@ export const Playground = () => {
     if (roundResult) {
       setIsPopupOpened(true);
 
+
       if (roundResult === RoundResult.Circle) {
         setWinner(Mark.Circle);
-        setCircleScore(circleScore + 1);
+        setScores({...scores, circle: scores.circle + 1 });
       } else if (roundResult === RoundResult.Cross) {
         setWinner(Mark.Cross);
-        setCrossScore(crossScore + 1);
+        setScores({ ...scores, cross: scores.cross + 1 });
       } else {
-        setTiesScore(tiesScore + 1);
+        setScores({ ...scores, ties: scores.ties + 1 });
       }
     }
   }, [roundResult]);
@@ -112,7 +109,7 @@ export const Playground = () => {
           ))}
         </div>
 
-        <ScoreBoard cross={crossScore} ties={tiesScore} circle={circleScore} />
+        <ScoreBoard {...scores} />
       </div>
 
       {isPopupOpened && (

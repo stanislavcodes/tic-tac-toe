@@ -1,8 +1,11 @@
 import { Link } from 'react-router-dom';
 import { Mark } from '../enums/Mark';
 import { PopupLayout } from '../layouts/PopupLayout';
-import { MarkIcon } from './MarkIcon';
 import { PlayersMark } from '../types/PlayersMark';
+import { MarkIcon } from './MarkIcon';
+import { PopupLink } from './Popup/PopupLink';
+import { PopupButton } from './Popup/PopupButton';
+
 
 interface RoundOverPopupProps {
   winner: PlayersMark | null;
@@ -34,18 +37,9 @@ export const RoundOverPopup = ({ winner, closePopup }: RoundOverPopupProps) => {
       )}
 
       <div className="flex gap-4">
-        <Link
-          to="/"
-          className="flex h-10 grow items-center justify-center rounded-xl bg-secondary px-2 text-xl font-bold uppercase text-dark shadow-md transition-colors hover:bg-secondary/80 focus:bg-primary max-[370px]:text-sm sm:h-12"
-        >
-          Quit
-        </Link>
-        <button
-          className='className="flex focus:bg-primary" h-10 grow items-center justify-center rounded-xl bg-primary px-2 text-xl font-bold uppercase text-dark shadow-md transition-colors hover:bg-primary/80 max-[370px]:text-sm :h-12'
-          onClick={closePopup}
-        >
-          Next Round
-        </button>
+        <PopupLink text="Quit" to="/" />
+
+        <PopupButton text="Next round" handleClick={closePopup}/>
       </div>
     </PopupLayout>
   );

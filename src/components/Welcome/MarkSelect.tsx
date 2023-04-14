@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import { useEffect, useState } from 'react';
-import { Mark } from '../enums/Mark';
-import { MarkIcon } from './MarkIcon';
-import { PlayersMark } from '../types/PlayersMark';
+import { Mark } from '../../enums/Mark';
+import { PlayersMark } from '../../types/PlayersMark';
+import { MarkIcon } from '../MarkIcon';
 
 const Option = ({
   selected,

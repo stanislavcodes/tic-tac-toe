@@ -1,5 +1,5 @@
-import { MarkSelect } from '../components/MarkSelect';
-import { NewGameButton } from '../components/NewGameButton';
+import { MarkSelect } from '../components/Welcome/MarkSelect';
+import { NewGameButton } from '../components/Welcome/NewGameButton';
 import { useGameContext } from '../contexts/useGameContext';
 import { PlayersMark } from '../types/PlayersMark';
 
